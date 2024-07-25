@@ -2,6 +2,7 @@ package com.example.todoapp.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.databinding.TodoItemLayoutBinding
 import com.example.todoapp.model.Todo
@@ -22,9 +23,16 @@ class TodoListAdapter (val todoList:ArrayList<Todo>,val adapterOnClick : (Todo) 
         holder.binding.checkBox.text = todoList[position].title
         holder.binding.checkBox.setOnCheckedChangeListener {
                 compoundButton, b ->
-            if(compoundButton.isPressed) {
+            if(b) {
                 adapterOnClick(todoList[position])
             }
+        }
+
+        holder.binding.imgEdit.setOnClickListener {
+            val action =
+                TodoListFragmentDirections.actionTodoListFragmentToEditTodoFragment(todoList[position].uuid)
+
+            Navigation.findNavController(it).navigate(action)
         }
 
     }
